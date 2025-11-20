@@ -1,0 +1,71 @@
+{
+  "info": {
+    "name": "Dikshant IAS Backend",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Signup",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\":\"Test\",\"mobile\":\"9999999999\"}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/auth/signup",
+          "host": [
+            "http://localhost:5000"
+          ],
+          "path": [
+            "auth",
+            "signup"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Request OTP",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"mobile\":\"9999999999\"}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/auth/request-otp",
+          "host": [
+            "http://localhost:5000"
+          ],
+          "path": [
+            "auth",
+            "request-otp"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Verify OTP",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"user_id\":1,\"otp\":\"123456\"}"
+        },
+        "url": {
+          "raw": "http://localhost:5000/auth/verify-otp",
+          "host": [
+            "http://localhost:5000"
+          ],
+          "path": [
+            "auth",
+            "verify-otp"
+          ]
+        }
+      }
+    }
+  ]
+}
