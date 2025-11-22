@@ -1,24 +1,24 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Order = sequelize.define('Order', {
+  const Coupon = sequelize.define('Coupon', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-      userId: DataTypes.INTEGER,
-  amount: DataTypes.DECIMAL(10,2),
-  status: DataTypes.STRING,
+      code: DataTypes.STRING,
+  discountPercent: DataTypes.INTEGER,
+  validTill: DataTypes.DATE,
   }, {
-    tableName: 'orders',
+    tableName: 'coupons',
     timestamps: true
   });
 
 
-  Order.associate = function(models) {
+  Coupon.associate = function(models) {
     // define associations here
   };
 
 
-  return Order;
+  return Coupon;
 };

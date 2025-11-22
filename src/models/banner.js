@@ -1,24 +1,24 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Order = sequelize.define('Order', {
+  const Banner = sequelize.define('Banner', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-      userId: DataTypes.INTEGER,
-  amount: DataTypes.DECIMAL(10,2),
-  status: DataTypes.STRING,
+      title: DataTypes.STRING,
+  imageUrl: DataTypes.STRING,
+  linkUrl: DataTypes.STRING,
   }, {
-    tableName: 'orders',
+    tableName: 'banners',
     timestamps: true
   });
 
 
-  Order.associate = function(models) {
+  Banner.associate = function(models) {
     // define associations here
   };
 
 
-  return Order;
+  return Banner;
 };

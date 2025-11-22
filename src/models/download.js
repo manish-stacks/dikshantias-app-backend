@@ -1,24 +1,24 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Order = sequelize.define('Order', {
+  const Download = sequelize.define('Download', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
       userId: DataTypes.INTEGER,
-  amount: DataTypes.DECIMAL(10,2),
-  status: DataTypes.STRING,
+  resourceType: DataTypes.STRING,
+  resourceId: DataTypes.INTEGER,
   }, {
-    tableName: 'orders',
+    tableName: 'downloads',
     timestamps: true
   });
 
 
-  Order.associate = function(models) {
+  Download.associate = function(models) {
     // define associations here
   };
 
 
-  return Order;
+  return Download;
 };

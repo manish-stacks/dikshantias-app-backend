@@ -1,24 +1,24 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Order = sequelize.define('Order', {
+  const Page = sequelize.define('Page', {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
-      userId: DataTypes.INTEGER,
-  amount: DataTypes.DECIMAL(10,2),
-  status: DataTypes.STRING,
+      title: DataTypes.STRING,
+  slug: DataTypes.STRING,
+  content: DataTypes.TEXT,
   }, {
-    tableName: 'orders',
+    tableName: 'pages',
     timestamps: true
   });
 
 
-  Order.associate = function(models) {
+  Page.associate = function(models) {
     // define associations here
   };
 
 
-  return Order;
+  return Page;
 };
