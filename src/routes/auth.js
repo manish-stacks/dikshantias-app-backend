@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const ctrl = require('../controllers/authController');
+const ctrl = require('../controllers/AuthController');
 const auth = require('../middleware/auth');
 
 router.post('/signup', ctrl.signup);

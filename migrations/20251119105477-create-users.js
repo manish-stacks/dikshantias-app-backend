@@ -12,8 +12,8 @@ module.exports = {
       otp_expiry: Sequelize.DATE,
       is_verified: { type: Sequelize.BOOLEAN, defaultValue: false },
       is_active: { type: Sequelize.BOOLEAN, defaultValue: true },
-      created_at: Sequelize.DATE,
-      updated_at: Sequelize.DATE,
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE,
     });
   },
   down: async (queryInterface) => {

@@ -5,7 +5,8 @@
     "database": "dikshant_db",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "timezone": "+05:30"
+    "timezone": "+05:30",
+    "logging": false
   },
   "test": {
     "username": "root",

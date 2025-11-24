@@ -1,3 +1,4 @@
+
 const { User } = require('../models');
 const bcrypt = require('bcrypt');
 const { sign } = require('../utils/generateToken');
@@ -103,7 +104,7 @@ exports.login = async (req, res) => {
       const ok = await bcrypt.compare(password, user.password);
       if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
       const token = sign({ id: user.id, role: user.role, name: user.name });
-      return res.json({ token });
+      return res.json({ token, user: { id: user.id, name: user.name, role: user.role } });
     } else if (otp && (mobile || email)) {
       const user = await User.findOne({ where: mobile ? { mobile } : { email } });
       if (!user) return res.status(404).json({ error: 'User not found' });
@@ -117,7 +118,7 @@ exports.login = async (req, res) => {
 
       await user.save();
       const token = sign({ id: user.id, role: user.role, name: user.name });
-      return res.json({ token });
+      return res.json({ token, user: { id: user.id, name: user.name, role: user.role } });
     }
     return res.status(400).json({ error: 'Invalid request' });
   } catch (err) { console.error(err); res.status(500).json({ error: 'Server error' }); }

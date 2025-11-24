@@ -1,7 +1,8 @@
-    'use strict';
-    const express = require('express');
-    const router = express.Router();
+'use strict';
+const express = require('express');
+const router = express.Router();
 
+router.use('/auth', require('./auth'));
 router.use('/programs', require('./programs'));
 router.use('/subjects', require('./subjects'));
 router.use('/batchs', require('./batchs'));
