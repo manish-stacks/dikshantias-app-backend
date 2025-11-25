@@ -1,12 +1,13 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
-const MCQQuestionController = require('../controllers/MCQQuestionController');
+const router = require('express').Router();
+const ctrl = require('../controllers/MCQQuestionController');
+const auth = require('../middleware/auth');
+const role = require('../middleware/role');
 
-router.post('/', MCQQuestionController.create);
-router.get('/', MCQQuestionController.findAll);
-router.get('/:id', MCQQuestionController.findOne);
-router.put('/:id', MCQQuestionController.update);
-router.delete('/:id', MCQQuestionController.delete);
-
+router.get('/', ctrl.findAll);
+router.post('/', auth, role(['admin']), ctrl.create);
+router.get('/subject/:subjectId', ctrl.findBySubject);
+router.get('/:id', ctrl.findOne);
+router.put('/:id', auth, role(['admin']), ctrl.update);
+router.delete('/:id', auth, role(['admin']), ctrl.delete);
 module.exports = router;

@@ -1,48 +1,67 @@
 'use strict';
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('batchs', {
 
-    id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false
-    },
-
-    name: {
-      type: Sequelize.STRING
-    },
-
-    startDate: {
-      type: Sequelize.DATE
-    },
-
-    endDate: {
-      type: Sequelize.DATE
-    },
-
-    programId: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: 'programs',
-        key: 'id'
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
       },
-      onUpdate: 'CASCADE',
-      onDelete: 'SET NULL'
-    },
 
-    createdAt: {
-      allowNull: false,
-      type: Sequelize.DATE
-    },
-    updatedAt: {
-      allowNull: false,
-      type: Sequelize.DATE
-    }
+      name: Sequelize.STRING,
+      slug: {
+        type: Sequelize.STRING,
+        unique: true
+      },
+
+      imageUrl: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+
+      displayOrder: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0
+      },
+
+      programId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'programs',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
+
+      startDate: Sequelize.DATE,
+      endDate: Sequelize.DATE,
+
+      registrationStartDate: Sequelize.DATE,
+      registrationEndDate: Sequelize.DATE,
+
+      status: {
+        type: Sequelize.ENUM('active', 'inactive'),
+        defaultValue: 'active'
+      },
+
+      shortDescription: Sequelize.STRING,
+      longDescription: Sequelize.TEXT,
+
+      batchPrice: Sequelize.FLOAT,
+      batchDiscountPrice: Sequelize.FLOAT,
+      gst: Sequelize.FLOAT,
+      offerValidityDays: Sequelize.INTEGER,
+
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
 
     });
   },
+
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('batchs');
   }

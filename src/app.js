@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 });
 
 // routes
-app.use('/', routes);
+app.use('/api', routes);
 app.get('/health', (req, res) => res.json({ ok: true }));
 
 // sync DB

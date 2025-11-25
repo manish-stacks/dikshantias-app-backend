@@ -6,16 +6,17 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
-      name: DataTypes.STRING,
-  description: DataTypes.TEXT,
+    name: DataTypes.STRING,
+    slug: DataTypes.STRING,
+    imageUrl: DataTypes.STRING,
+    description: DataTypes.TEXT,
   }, {
     tableName: 'programs',
     timestamps: true
   });
 
 
-  Program.associate = function(models) {
-    Program.hasMany(models.Subject, { foreignKey: 'programId', as: 'subjects' });
+  Program.associate = function (models) {
     Program.hasMany(models.Batch, { foreignKey: 'programId', as: 'batches' });
     Program.hasMany(models.VideoCourse, { foreignKey: 'programId', as: 'videoCourses' });
     Program.hasMany(models.PDFNote, { foreignKey: 'programId', as: 'pdfNotes' });

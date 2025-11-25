@@ -6,17 +6,16 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
-      name: DataTypes.STRING,
-  description: DataTypes.TEXT,
-  programId: DataTypes.INTEGER,
+    name: DataTypes.STRING,
+    slug: DataTypes.STRING,
+    description: DataTypes.TEXT,
   }, {
     tableName: 'subjects',
     timestamps: true
   });
 
 
-  Subject.associate = function(models) {
-    Subject.belongsTo(models.Program, { foreignKey: 'programId', as: 'program' });
+  Subject.associate = function (models) {
     Subject.hasMany(models.MCQQuestion, { foreignKey: 'subjectId', as: 'mcqQuestions' });
   };
 

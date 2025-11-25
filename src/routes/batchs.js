@@ -1,12 +1,14 @@
-'use strict';
-const express = require('express');
-const router = express.Router();
-const BatchController = require('../controllers/BatchController');
+const router = require('express').Router();
+const ctrl = require('../controllers/BatchController');
+const auth = require('../middleware/auth');
+const role = require('../middleware/role');
+const upload = require("../middleware/upload");
 
-router.post('/', BatchController.create);
-router.get('/', BatchController.findAll);
-router.get('/:id', BatchController.findOne);
-router.put('/:id', BatchController.update);
-router.delete('/:id', BatchController.delete);
+router.get('/', ctrl.findAll);
+router.post('/', auth, role(['admin']), upload.single('imageUrl'), ctrl.create);
+router.get('/:id', ctrl.findOne);
+router.put('/:id', auth, role(['admin']), upload.single('imageUrl'), ctrl.update);
+router.delete('/:id', auth, role(['admin']), ctrl.delete);
 
 module.exports = router;
+
