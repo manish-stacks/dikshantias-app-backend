@@ -36,7 +36,10 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       },
-
+      subjectId: {
+        type: Sequelize.JSON,
+        allowNull: false
+      },
       startDate: Sequelize.DATE,
       endDate: Sequelize.DATE,
 

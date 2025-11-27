@@ -6,17 +6,18 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
-      title: DataTypes.STRING,
-  fileUrl: DataTypes.STRING,
-  programId: DataTypes.INTEGER,
+    title: DataTypes.STRING,
+    fileUrl: DataTypes.STRING,
+    batchId: DataTypes.INTEGER,
+    subjectId: DataTypes.INTEGER,
   }, {
     tableName: 'pdfnotes',
     timestamps: true
   });
 
 
-  PDFNote.associate = function(models) {
-    PDFNote.belongsTo(models.Program, { foreignKey: 'programId', as: 'program' });
+  PDFNote.associate = function (models) {
+    PDFNote.belongsTo(models.Batch, { foreignKey: 'batchId', as: 'batchs' });
   };
 
 

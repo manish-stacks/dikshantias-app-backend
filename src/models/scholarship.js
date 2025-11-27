@@ -6,16 +6,16 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
-      name: DataTypes.STRING,
-  description: DataTypes.TEXT,
+    name: DataTypes.STRING,
+    description: DataTypes.TEXT,
   }, {
     tableName: 'scholarships',
     timestamps: true
   });
 
 
-  Scholarship.associate = function(models) {
-    Scholarship.hasMany(models.ScholarshipMCQQuestion, { foreignKey: 'scholarshipId', as: 'mcqQuestions' });
+  Scholarship.associate = function (models) {
+    // Scholarship.hasMany(models.ScholarshipMCQQuestion, { foreignKey: 'scholarshipId', as: 'mcqQuestions' });
     Scholarship.hasMany(models.ScholarshipApplication, { foreignKey: 'scholarshipId', as: 'applications' });
     Scholarship.hasMany(models.ScholarshipResult, { foreignKey: 'scholarshipId', as: 'results' });
   };

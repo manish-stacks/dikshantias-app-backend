@@ -6,7 +6,7 @@ module.exports = {
       email: Sequelize.STRING,
       mobile: Sequelize.STRING,
       password: Sequelize.STRING,
-      batch_id: Sequelize.INTEGER,
+      // batch_id: Sequelize.INTEGER,
       role: { type: Sequelize.ENUM("student", "instructor", "admin"), defaultValue: "student" },
       otp: Sequelize.STRING,
       otp_expiry: Sequelize.DATE,

@@ -1,14 +1,13 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 
 router.use('/auth', require('./auth'));
 router.use('/programs', require('./programs'));
 router.use('/subjects', require('./subjects'));
 router.use('/batchs', require('./batchs'));
 router.use('/mcqquestions', require('./mcqquestions'));
-router.use('/scholarshipmcqquestions', require('./scholarshipmcqquestions'));
-router.use('/videocourses', require('./videocourses'));
+router.use('/scholarshipmcqquestions', require('./scholarshipmcqquestions')); 
+router.use('/videocourses', require('./videocourses'));//done
 router.use('/pdfnotes', require('./pdfnotes'));
 router.use('/testseriess', require('./testseriess'));
 router.use('/announcements', require('./announcements'));

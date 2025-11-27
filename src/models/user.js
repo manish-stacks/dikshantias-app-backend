@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     email: { type: DataTypes.STRING, unique: true, allowNull: true },
     mobile: { type: DataTypes.STRING, unique: true, allowNull: true },
     password: DataTypes.STRING,
-    batch_id: DataTypes.BIGINT.UNSIGNED,
+    // batch_id: DataTypes.BIGINT.UNSIGNED,
     role: { type: DataTypes.ENUM('student','admin','instructor'), defaultValue: 'student' },
     otp: DataTypes.STRING,
     otp_expiry: DataTypes.DATE,

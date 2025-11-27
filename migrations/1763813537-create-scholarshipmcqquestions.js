@@ -1,39 +1,63 @@
 'use strict';
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('scholarshipmcqquestions', {
 
-    id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false
-    },
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+      },
 
-    question: {
-      type: Sequelize.TEXT
-    },
+      questionType: {
+        type: Sequelize.ENUM('Single', 'Multiple'),
+        allowNull: false
+      },
 
-    options: {
-      type: Sequelize.JSON
-    },
+      positiveMarks: {
+        type: Sequelize.FLOAT,
+        defaultValue: 1
+      },
 
-    correctOption: {
-      type: Sequelize.STRING
-    },
+      negativeMark: {
+        type: Sequelize.FLOAT,
+        defaultValue: 0
+      },
 
-    createdAt: {
-      allowNull: false,
-      type: Sequelize.DATE
-    },
-    updatedAt: {
-      allowNull: false,
-      type: Sequelize.DATE
-    }
+      question: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
+
+      options: {
+        type: Sequelize.JSON, // ["opt1", "opt2", "opt3", "opt4"]
+        allowNull: false
+      },
+
+      correctOption: {
+        type: Sequelize.JSON, 
+        allowNull: false
+        // Single => ["A"]
+        // Multiple => ["A","C"]
+      },
+
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE
+      }
 
     });
   },
+
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('scholarshipmcqquestions');
   }
 };
+
+

@@ -1,6 +1,7 @@
 'use strict';
 const { PDFNote } = require('../models');
 
+
 class PDFNoteController {
   static async create(req, res) {
     try {
@@ -11,6 +12,7 @@ class PDFNoteController {
       return res.status(500).json({ message: 'Error creating pdfnote', error });
     }
   }
+
 
   static async findAll(req, res) {
     try {
