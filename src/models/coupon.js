@@ -1,24 +1,24 @@
 'use strict';
+
 module.exports = (sequelize, DataTypes) => {
-  const Coupon = sequelize.define('Coupon', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
-      code: DataTypes.STRING,
-  discountPercent: DataTypes.INTEGER,
-  validTill: DataTypes.DATE,
+  const Coupon = sequelize.define("Coupon", {
+
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+
+    code: DataTypes.STRING,
+    discount: DataTypes.FLOAT,
+    discountType: DataTypes.ENUM("flat", "percentage"),
+
+    minPurchase: DataTypes.FLOAT,
+    maxDiscount: DataTypes.FLOAT,
+
+    validTill: DataTypes.DATE,
+    isActive: DataTypes.BOOLEAN
+
   }, {
-    tableName: 'coupons',
+    tableName: "coupons",
     timestamps: true
   });
-
-
-  Coupon.associate = function(models) {
-    // define associations here
-  };
-
 
   return Coupon;
 };

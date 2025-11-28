@@ -1,38 +1,55 @@
 'use strict';
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('orders', {
 
-    id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false
-    },
+      id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
 
-    userId: {
-      type: Sequelize.INTEGER
-    },
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
 
-    amount: {
-      type: Sequelize.DECIMAL(10,2)
-    },
+      type: {
+        type: Sequelize.ENUM("batch", "test"),
+        allowNull: false
+      },
 
-    status: {
-      type: Sequelize.STRING
-    },
+      itemId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
 
-    createdAt: {
-      allowNull: false,
-      type: Sequelize.DATE
-    },
-    updatedAt: {
-      allowNull: false,
-      type: Sequelize.DATE
-    }
+      amount: Sequelize.FLOAT,
+      discount: Sequelize.FLOAT,
+      gst: Sequelize.FLOAT,
+      totalAmount: Sequelize.FLOAT,
 
+      razorpayOrderId: Sequelize.STRING,
+      razorpayPaymentId: Sequelize.STRING,
+      razorpaySignature: Sequelize.STRING,
+
+      status: {
+        type: Sequelize.ENUM("pending", "success", "failed"),
+        defaultValue: "pending"
+      },
+
+      paymentDate: Sequelize.DATE,
+      accessValidityDays: Sequelize.INTEGER,
+      enrollmentStatus: {
+        type: Sequelize.ENUM("active", "expired", "cancelled"),
+        defaultValue: "active"
+      },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
     });
   },
+
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('orders');
   }

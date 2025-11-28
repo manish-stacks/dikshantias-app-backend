@@ -1,12 +1,16 @@
-'use strict';
-const express = require('express');
-const router = express.Router();
-const AnnouncementController = require('../controllers/AnnouncementController');
+const router = require("express").Router();
+const ctrl = require("../controllers/AnnouncementController");
+const auth = require("../middleware/auth");
+const role = require("../middleware/role");
 
-router.post('/', AnnouncementController.create);
-router.get('/', AnnouncementController.findAll);
-router.get('/:id', AnnouncementController.findOne);
-router.put('/:id', AnnouncementController.update);
-router.delete('/:id', AnnouncementController.delete);
+router.get("/", ctrl.findAll);
+
+router.post("/", auth, role(["admin"]), ctrl.create);
+
+router.get("/:id", ctrl.findOne);
+
+router.put("/:id", auth, role(["admin"]), ctrl.update);
+
+router.delete("/:id", auth, role(["admin"]), ctrl.delete);
 
 module.exports = router;

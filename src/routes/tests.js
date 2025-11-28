@@ -1,15 +1,13 @@
-'use strict';
 const router = require("express").Router();
-const ctrl = require("../controllers/BannerController");
+const ctrl = require("../controllers/TestController");
 const auth = require("../middleware/auth");
 const role = require("../middleware/role");
 const upload = require("../middleware/upload");
 
 router.get("/", ctrl.findAll);
+router.post("/", auth, role(["admin"]), upload.single("solutionFileUrl"), ctrl.create);
 router.get("/:id", ctrl.findOne);
-
-router.post( "/", auth, role(["admin"]), upload.single("imageUrl"), ctrl.create);
-router.put( "/:id", auth, role(["admin"]), upload.single("imageUrl"), ctrl.update);
+router.put("/:id", auth, role(["admin"]), upload.single("solutionFileUrl"), ctrl.update);
 router.delete("/:id", auth, role(["admin"]), ctrl.delete);
 
 module.exports = router;

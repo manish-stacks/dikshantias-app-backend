@@ -1,24 +1,18 @@
 'use strict';
+
 module.exports = (sequelize, DataTypes) => {
-  const Banner = sequelize.define('Banner', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
-      title: DataTypes.STRING,
-  imageUrl: DataTypes.STRING,
-  linkUrl: DataTypes.STRING,
+  const Banner = sequelize.define("Banner", {
+
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+
+    title: DataTypes.STRING,
+    imageUrl: DataTypes.STRING,
+    linkUrl: DataTypes.STRING
+
   }, {
-    tableName: 'banners',
+    tableName: "banners",
     timestamps: true
   });
-
-
-  Banner.associate = function(models) {
-    // define associations here
-  };
-
 
   return Banner;
 };

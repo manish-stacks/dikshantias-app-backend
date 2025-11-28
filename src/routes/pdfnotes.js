@@ -1,26 +1,13 @@
-'use strict';
-const express = require('express');
-const router = express.Router();
-const PDFNoteController = require('../controllers/PDFNoteController');
-
-router.post('/', PDFNoteController.create);
-router.get('/', PDFNoteController.findAll);
-router.get('/:id', PDFNoteController.findOne);
-router.put('/:id', PDFNoteController.update);
-router.delete('/:id', PDFNoteController.delete);
-
-module.exports = router;
-
-
-
-/*
 const router = require('express').Router();
-const multer = require('multer');
-const upload = multer();
-const ctrl = require('../controllers/pdfController');
+const ctrl = require('../controllers/PDFNoteController');
 const auth = require('../middleware/auth');
 const role = require('../middleware/role');
-router.post('/upload', auth, role(['admin']), upload.single('file'), ctrl.uploadPdf);
-router.get('/:id/token', auth, ctrl.generateDownloadToken);
+const upload = require('../middleware/upload');
+
+router.get('/', ctrl.findAll);
+router.post('/', auth, role(['admin']), upload.single('fileUrl'), ctrl.create);
+router.get('/:id', ctrl.findOne);
+router.put('/:id', auth, role(['admin']), upload.single('fileUrl'), ctrl.update);
+router.delete('/:id', auth, role(['admin']), ctrl.delete);
+
 module.exports = router;
-*/

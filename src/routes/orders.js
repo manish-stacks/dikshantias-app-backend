@@ -1,12 +1,14 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
-const OrderController = require('../controllers/OrderController');
+const router = require('express').Router();
+const ctrl = require("../controllers/OrderController");
+const auth = require("../middleware/auth");
 
-router.post('/', OrderController.create);
-router.get('/', OrderController.findAll);
-router.get('/:id', OrderController.findOne);
-router.put('/:id', OrderController.update);
-router.delete('/:id', OrderController.delete);
+router.get("/allOrderss", auth, ctrl.allOrders);
+router.post("/", auth, ctrl.createOrder);
+router.post("/verify", auth, ctrl.verifyPayment);
+router.get("/user/:userId", auth, ctrl.userOrders);
+router.get("/:orderId", auth, ctrl.getOrderById);
+router.delete("/:orderId", auth, ctrl.deleteOrder);
+
 
 module.exports = router;

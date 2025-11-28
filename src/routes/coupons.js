@@ -1,12 +1,12 @@
-'use strict';
-const express = require('express');
-const router = express.Router();
-const CouponController = require('../controllers/CouponController');
+const router = require("express").Router();
+const ctrl = require("../controllers/CouponController");
+const auth = require("../middleware/auth");
+const role = require("../middleware/role");
 
-router.post('/', CouponController.create);
-router.get('/', CouponController.findAll);
-router.get('/:id', CouponController.findOne);
-router.put('/:id', CouponController.update);
-router.delete('/:id', CouponController.delete);
+router.get("/", ctrl.findAll);
+router.post("/", auth, role(["admin"]), ctrl.create);
+router.post("/apply", ctrl.apply);
+router.put("/:id", auth, role(["admin"]), ctrl.update);
+router.delete("/:id", auth, role(["admin"]), ctrl.delete);
 
 module.exports = router;

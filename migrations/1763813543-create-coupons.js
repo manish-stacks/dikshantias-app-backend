@@ -1,39 +1,58 @@
 'use strict';
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('coupons', {
 
-    id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-      allowNull: false
-    },
+      id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+      },
 
-    code: {
-      type: Sequelize.STRING
-    },
+      code: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
 
-    discountPercent: {
-      type: Sequelize.INTEGER
-    },
+      discount: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
 
-    validTill: {
-      type: Sequelize.DATE
-    },
+      discountType: {
+        type: Sequelize.ENUM("flat", "percentage"),
+        allowNull: false
+      },
 
-    createdAt: {
-      allowNull: false,
-      type: Sequelize.DATE
-    },
-    updatedAt: {
-      allowNull: false,
-      type: Sequelize.DATE
-    }
+      minPurchase: {
+        type: Sequelize.FLOAT,
+        allowNull: true
+      },
+
+      maxDiscount: {
+        type: Sequelize.FLOAT,
+        allowNull: true
+      },
+
+      validTill: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
+      },
+
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
 
     });
   },
-  async down(queryInterface, Sequelize) {
+
+  async down(queryInterface) {
     await queryInterface.dropTable('coupons');
   }
 };
