@@ -6,16 +6,16 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
-      userId: DataTypes.INTEGER,
-  scholarshipId: DataTypes.INTEGER,
-  result: DataTypes.STRING,
+    userId: DataTypes.INTEGER,
+    scholarshipId: DataTypes.INTEGER,
+    result: DataTypes.STRING,
   }, {
     tableName: 'scholarshipresults',
     timestamps: true
   });
 
 
-  ScholarshipResult.associate = function(models) {
+  ScholarshipResult.associate = function (models) {
     ScholarshipResult.belongsTo(models.Scholarship, { foreignKey: 'scholarshipId', as: 'scholarship' });
   };
 

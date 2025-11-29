@@ -6,15 +6,15 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
-      question: DataTypes.TEXT,
-  answer: DataTypes.TEXT,
+    question: DataTypes.TEXT,
+    answer: DataTypes.TEXT,
   }, {
     tableName: 'faqs',
     timestamps: true
   });
 
 
-  FAQ.associate = function(models) {
+  FAQ.associate = function (models) {
     // define associations here
   };
 

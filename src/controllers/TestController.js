@@ -194,6 +194,36 @@ class TestController {
       return res.status(500).json({ message: "Error deleting test", error });
     }
   }
+
+  static async getQuestions(req, res) {
+    try {
+      const { id } = req.params; // testId
+      const test = await Test.findByPk(id);
+      if (!test) return res.status(404).json({ message: 'Test not found' });
+
+      const subjectIds = test.subjectId || [];       // JSON array
+      const noOfQuestions = test.noOfQuestions || {}; // e.g. { "1": 10, "2": 5 }
+
+      let questions = [];
+
+      for (const subjId of subjectIds) {
+        const limit = noOfQuestions[subjId] || 0;
+        if (!limit) continue;
+
+        const qs = await MCQQuestion.findAll({
+          where: { subjectId: subjId },
+          limit
+        });
+
+        questions = questions.concat(qs);
+      }
+
+      return res.json({ test, questions });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Error fetching test questions', error });
+    }
+  }
 }
 
 module.exports = TestController;

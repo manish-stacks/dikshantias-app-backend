@@ -1,12 +1,15 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
-const AppSettingController = require('../controllers/AppSettingController');
+const router = require("express").Router();
+const ctrl = require("../controllers/AppSettingController");
+const auth = require("../middleware/auth");
+const role = require("../middleware/role");
 
-router.post('/', AppSettingController.create);
-router.get('/', AppSettingController.findAll);
-router.get('/:id', AppSettingController.findOne);
-router.put('/:id', AppSettingController.update);
-router.delete('/:id', AppSettingController.delete);
+router.get("/", ctrl.findAll);
+router.get("/:key", ctrl.findOne);
+
+router.post("/", auth, role(["admin"]), ctrl.save);
+router.put("/", auth, role(["admin"]), ctrl.save);   // same create/update
+router.delete("/:id", auth, role(["admin"]), ctrl.delete);
 
 module.exports = router;
+

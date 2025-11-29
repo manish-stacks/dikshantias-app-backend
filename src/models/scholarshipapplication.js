@@ -9,10 +9,11 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     scholarshipId: DataTypes.INTEGER,
     status: DataTypes.STRING,
-  }, {
-    tableName: 'scholarshipapplications',
-    timestamps: true
-  });
+  },
+    {
+      tableName: 'scholarshipapplications',
+      timestamps: true
+    });
 
 
   ScholarshipApplication.associate = function (models) {

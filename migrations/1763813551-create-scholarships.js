@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('scholarshipresults', {
+    await queryInterface.createTable('scholarships', {
 
       id: {
         type: Sequelize.INTEGER,
@@ -10,25 +10,19 @@ module.exports = {
         allowNull: false
       },
 
-      userId: {
-        type: Sequelize.INTEGER
-      },
-
-      scholarshipId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'scholarships',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-      },
-      
-
-      result: {
+      name: {
         type: Sequelize.STRING
       },
 
+      description: {
+        type: Sequelize.TEXT
+      },
+      noOfQuestions: {
+        type: Sequelize.INTEGER
+      },
+      duration: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -41,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('scholarshipresults');
+    await queryInterface.dropTable('scholarships');
   }
 };

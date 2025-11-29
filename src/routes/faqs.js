@@ -1,12 +1,15 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
-const FAQController = require('../controllers/FAQController');
+const router = require("express").Router();
+const ctrl = require("../controllers/FAQController");
+const auth = require("../middleware/auth");
+const role = require("../middleware/role");
 
-router.post('/', FAQController.create);
-router.get('/', FAQController.findAll);
-router.get('/:id', FAQController.findOne);
-router.put('/:id', FAQController.update);
-router.delete('/:id', FAQController.delete);
+router.get("/", ctrl.findAll);
+router.get("/:id", ctrl.findOne);
+
+router.post("/", auth, role(["admin"]), ctrl.create);
+router.put("/:id", auth, role(["admin"]), ctrl.update);
+router.delete("/:id", auth, role(["admin"]), ctrl.delete);
 
 module.exports = router;
+

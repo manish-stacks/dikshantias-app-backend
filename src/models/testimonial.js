@@ -6,16 +6,16 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
-      name: DataTypes.STRING,
-  message: DataTypes.TEXT,
-  role: DataTypes.STRING,
+    name: DataTypes.STRING,
+    message: DataTypes.TEXT,
+    role: DataTypes.STRING,
   }, {
     tableName: 'testimonials',
     timestamps: true
   });
 
 
-  Testimonial.associate = function(models) {
+  Testimonial.associate = function (models) {
     // define associations here
   };
 

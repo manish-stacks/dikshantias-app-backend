@@ -8,14 +8,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
+    noOfQuestions: DataTypes.INTEGER,
+    duration: DataTypes.INTEGER
   }, {
     tableName: 'scholarships',
     timestamps: true
   });
 
 
+
   Scholarship.associate = function (models) {
-    // Scholarship.hasMany(models.ScholarshipMCQQuestion, { foreignKey: 'scholarshipId', as: 'mcqQuestions' });
     Scholarship.hasMany(models.ScholarshipApplication, { foreignKey: 'scholarshipId', as: 'applications' });
     Scholarship.hasMany(models.ScholarshipResult, { foreignKey: 'scholarshipId', as: 'results' });
   };

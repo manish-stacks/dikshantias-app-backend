@@ -1,12 +1,10 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
-const MCQResultController = require('../controllers/MCQResultController');
+const router = require('express').Router();
+const ctrl = require('../controllers/MCQResultController');
+const auth = require('../middleware/auth');
 
-router.post('/', MCQResultController.create);
-router.get('/', MCQResultController.findAll);
-router.get('/:id', MCQResultController.findOne);
-router.put('/:id', MCQResultController.update);
-router.delete('/:id', MCQResultController.delete);
+
+router.post('/submit', auth, ctrl.submitTest);
+router.get('/test/:testId/user/:userId', auth, ctrl.getTestResult);
 
 module.exports = router;

@@ -1,24 +1,25 @@
 'use strict';
+
 module.exports = (sequelize, DataTypes) => {
-  const Download = sequelize.define('Download', {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
-      userId: DataTypes.INTEGER,
-  resourceType: DataTypes.STRING,
-  resourceId: DataTypes.INTEGER,
+  const Download = sequelize.define("Download", {
+
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+
+    userId: DataTypes.INTEGER,
+    type: DataTypes.ENUM("pdf", "video", "note", "solution", "other"),
+    title: DataTypes.STRING,
+    fileUrl: DataTypes.STRING,
+    itemId: DataTypes.INTEGER,
+    programId: DataTypes.INTEGER,
+    batchId: DataTypes.INTEGER,
+    subjectId: DataTypes.INTEGER,
+    downloadedAt: DataTypes.DATE,
+    deviceInfo: DataTypes.TEXT
+
   }, {
-    tableName: 'downloads',
+    tableName: "downloads",
     timestamps: true
   });
-
-
-  Download.associate = function(models) {
-    // define associations here
-  };
-
 
   return Download;
 };

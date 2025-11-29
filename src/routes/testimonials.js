@@ -1,12 +1,14 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
-const TestimonialController = require('../controllers/TestimonialController');
+const router = require("express").Router();
+const ctrl = require("../controllers/TestimonialController");
+const auth = require("../middleware/auth");
+const role = require("../middleware/role");
 
-router.post('/', TestimonialController.create);
-router.get('/', TestimonialController.findAll);
-router.get('/:id', TestimonialController.findOne);
-router.put('/:id', TestimonialController.update);
-router.delete('/:id', TestimonialController.delete);
+router.get("/", ctrl.findAll);
+router.get("/:id", ctrl.findOne);
+
+router.post("/", auth, role(["admin"]), ctrl.create);
+router.put("/:id", auth, role(["admin"]), ctrl.update);
+router.delete("/:id", auth, role(["admin"]), ctrl.delete);
 
 module.exports = router;

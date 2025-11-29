@@ -9,5 +9,5 @@ router.post("/", auth, role(["admin"]), upload.single("solutionFileUrl"), ctrl.c
 router.get("/:id", ctrl.findOne);
 router.put("/:id", auth, role(["admin"]), upload.single("solutionFileUrl"), ctrl.update);
 router.delete("/:id", auth, role(["admin"]), ctrl.delete);
-
+router.get('/:id/questions', auth, ctrl.getQuestions);
 module.exports = router;

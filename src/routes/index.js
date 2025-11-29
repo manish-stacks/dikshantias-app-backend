@@ -15,16 +15,16 @@ router.use('/announcements', require('./announcements'));
 router.use('/orders', require('./orders'));
 router.use('/coupons', require('./coupons'));
 router.use('/blogs', require('./blogs'));
-router.use('/banners', require('./banners'));//done
+router.use('/banners', require('./banners'));
 router.use('/faqs', require('./faqs'));
 router.use('/testimonials', require('./testimonials'));
 router.use('/pages', require('./pages'));
 router.use('/appsettings', require('./appsettings'));
 router.use('/downloads', require('./downloads'));
-router.use('/mcqresults', require('./mcqresults'));
-router.use('/scholarships', require('./scholarships'));
+router.use('/scholarships', require('./scholarships'));//done
 router.use('/scholarshipapplications', require('./scholarshipapplications'));
-router.use('/scholarshipresults', require('./scholarshipresults'));
 router.use('/courseprogresss', require('./courseprogresss'));
+router.use('/scholarshipresults', require('./scholarshipresults'));
+router.use('/mcqresults', require('./mcqresults'));
 
 module.exports = router;

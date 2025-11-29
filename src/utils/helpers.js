@@ -13,6 +13,21 @@ class helpers {
             .replace(/-+/g, '-')
             .replace(/^-+|-+$/g, '');
     }
+
+    static normalizeArray(value) {
+        if (!value) return [];
+        if (Array.isArray(value)) return value;
+        try {
+            const parsed = JSON.parse(value);
+            return Array.isArray(parsed) ? parsed : [];
+        } catch (e) {
+            // e.g. "A,B,C"
+            return String(value)
+                .split(',')
+                .map(v => v.trim())
+                .filter(Boolean);
+        }
+    }
 }
 
 module.exports = helpers;

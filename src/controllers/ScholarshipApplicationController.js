@@ -1,59 +1,132 @@
-'use strict';
-const { ScholarshipApplication } = require('../models');
+"use strict";
+
+const { ScholarshipApplication, Scholarship, User } = require("../models");
+const redis = require("../config/redis");
 
 class ScholarshipApplicationController {
-  static async create(req, res) {
+
+  // USER APPLY FOR SCHOLARSHIP
+  static async apply(req, res) {
     try {
-      const item = await ScholarshipApplication.create(req.body);
-      return res.status(201).json(item);
+      const { userId, scholarshipId } = req.body;
+
+      if (!userId || !scholarshipId)
+        return res.status(400).json({ message: "userId & scholarshipId required" });
+
+      const scholarship = await Scholarship.findByPk(scholarshipId);
+      if (!scholarship) return res.status(404).json({ message: "Scholarship not found" });
+
+      // Prevent duplicate application
+      const already = await ScholarshipApplication.findOne({
+        where: { userId, scholarshipId }
+      });
+
+      if (already)
+        return res.status(400).json({ message: "You already applied for this scholarship" });
+
+      const app = await ScholarshipApplication.create({
+        userId,
+        scholarshipId,
+        status: "pending"
+      });
+
+      await redis.del(`scholarshipapps:sch:${scholarshipId}`);
+      await redis.del(`scholarshipapps:user:${userId}`);
+
+      return res.status(201).json(app);
+
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error creating scholarshipapplication', error });
+      console.log(error);
+      return res.status(500).json({ message: "Error applying for scholarship", error });
     }
   }
 
-  static async findAll(req, res) {
+
+  // GET ALL APPLICATIONS FOR A SCHOLARSHIP (ADMIN)
+  static async listByScholarship(req, res) {
     try {
-      const items = await ScholarshipApplication.findAll();
-      return res.json(items);
+      const scholarshipId = req.params.scholarshipId;
+
+      const cacheKey = `scholarshipapps:sch:${scholarshipId}`;
+      const cache = await redis.get(cacheKey);
+      if (cache) return res.json(JSON.parse(cache));
+
+      const apps = await ScholarshipApplication.findAll({
+        where: { scholarshipId },
+        order: [["createdAt", "DESC"]]
+      });
+
+      await redis.set(cacheKey, JSON.stringify(apps), "EX", 300);
+
+      return res.json(apps);
+
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error fetching scholarshipapplications', error });
+      return res.status(500).json({ message: "Error fetching applications", error });
     }
   }
 
-  static async findOne(req, res) {
+
+  // GET ALL APPLICATIONS OF USER
+  static async listByUser(req, res) {
     try {
-      const item = await ScholarshipApplication.findByPk(req.params.id);
-      if (!item) return res.status(404).json({ message: 'ScholarshipApplication not found' });
-      return res.json(item);
+      const userId = req.params.userId;
+
+      const cacheKey = `scholarshipapps:user:${userId}`;
+      const cache = await redis.get(cacheKey);
+      if (cache) return res.json(JSON.parse(cache));
+
+      const apps = await ScholarshipApplication.findAll({
+        where: { userId },
+        order: [["createdAt", "DESC"]]
+      });
+
+      await redis.set(cacheKey, JSON.stringify(apps), "EX", 300);
+
+      return res.json(apps);
+
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error fetching scholarshipapplication', error });
+      return res.status(500).json({ message: "Error fetching applications", error });
     }
   }
 
-  static async update(req, res) {
+
+  // UPDATE STATUS (ADMIN)
+  static async updateStatus(req, res) {
     try {
-      const item = await ScholarshipApplication.findByPk(req.params.id);
-      if (!item) return res.status(404).json({ message: 'ScholarshipApplication not found' });
-      await item.update(req.body);
-      return res.json(item);
+      const { id } = req.params;
+      const { status } = req.body;
+
+      const app = await ScholarshipApplication.findByPk(id);
+      if (!app) return res.status(404).json({ message: "Application not found" });
+
+      await app.update({ status });
+
+      await redis.del(`scholarshipapps:sch:${app.scholarshipId}`);
+      await redis.del(`scholarshipapps:user:${app.userId}`);
+
+      return res.json(app);
+
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error updating scholarshipapplication', error });
+      return res.status(500).json({ message: "Error updating status", error });
     }
   }
-
-  static async delete(req, res) {
+  // DELETE APPLICATION
+  static async deleteApplication(req, res) {
     try {
-      const item = await ScholarshipApplication.findByPk(req.params.id);
-      if (!item) return res.status(404).json({ message: 'ScholarshipApplication not found' });
-      await item.destroy();
-      return res.json({ message: 'ScholarshipApplication deleted' });
+      const { id } = req.params;
+
+      const app = await ScholarshipApplication.findByPk(id);
+      if (!app) return res.status(404).json({ message: "Application not found" });
+
+      await app.destroy();
+
+      await redis.del(`scholarshipapps:sch:${app.scholarshipId}`);
+      await redis.del(`scholarshipapps:user:${app.userId}`);
+
+      return res.json({ message: "Application deleted successfully" });
+
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error deleting scholarshipapplication', error });
+      return res.status(500).json({ message: "Error deleting application", error });
     }
   }
 }

@@ -6,15 +6,15 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
-      key: DataTypes.STRING,
-  value: DataTypes.TEXT,
+    key: DataTypes.STRING,
+    value: DataTypes.TEXT,
   }, {
     tableName: 'appsettings',
     timestamps: true
   });
 
 
-  AppSetting.associate = function(models) {
+  AppSetting.associate = function (models) {
     // define associations here
   };
 

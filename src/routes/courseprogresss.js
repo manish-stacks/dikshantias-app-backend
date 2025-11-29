@@ -1,12 +1,13 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
-const CourseProgressController = require('../controllers/CourseProgressController');
+const router = require("express").Router();
+const ctrl = require("../controllers/CourseProgressController");
+const auth = require("../middleware/auth");
 
-router.post('/', CourseProgressController.create);
-router.get('/', CourseProgressController.findAll);
-router.get('/:id', CourseProgressController.findOne);
-router.put('/:id', CourseProgressController.update);
-router.delete('/:id', CourseProgressController.delete);
+
+router.post("/", auth, ctrl.updateProgress);
+router.get("/:userId/batch/:batchId", auth, ctrl.getBatchProgress);
+router.get("/:userId/batch/:batchId/summary", auth, ctrl.getBatchCompletion);
 
 module.exports = router;
+
+

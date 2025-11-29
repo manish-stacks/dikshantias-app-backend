@@ -1,12 +1,9 @@
 'use strict';
-const express = require('express');
-const router = express.Router();
-const ScholarshipResultController = require('../controllers/ScholarshipResultController');
+const router = require("express").Router();
+const ctrl = require("../controllers/ScholarshipResultController");
+const auth = require("../middleware/auth");
 
-router.post('/', ScholarshipResultController.create);
-router.get('/', ScholarshipResultController.findAll);
-router.get('/:id', ScholarshipResultController.findOne);
-router.put('/:id', ScholarshipResultController.update);
-router.delete('/:id', ScholarshipResultController.delete);
 
+router.post("/submit", auth, ctrl.submit);
+router.get("/:scholarshipId/user/:userId", auth, ctrl.getUserResult);
 module.exports = router;

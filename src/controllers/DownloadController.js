@@ -1,59 +1,80 @@
-'use strict';
-const { Download } = require('../models');
+"use strict";
+
+const { Download } = require("../models");
+const redis = require("../config/redis");
 
 class DownloadController {
+
+  // CREATE — When user downloads a file
   static async create(req, res) {
     try {
-      const item = await Download.create(req.body);
+
+      const payload = {
+        userId: req.body.userId,
+        type: req.body.type,
+        title: req.body.title,
+        fileUrl: req.body.fileUrl,
+        itemId: req.body.itemId || null,
+        programId: req.body.programId || null,
+        batchId: req.body.batchId || null,
+        subjectId: req.body.subjectId || null,
+        deviceInfo: req.body.deviceInfo || req.headers['user-agent']
+      };
+
+      const item = await Download.create(payload);
+      await redis.del(`downloads:${payload.userId}`);
+
       return res.status(201).json(item);
+
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error creating download', error });
+      console.log(error);
+      return res.status(500).json({ message: "Download entry failed", error });
     }
   }
 
-  static async findAll(req, res) {
+
+  // GET ALL downloads of user
+  static async findByUser(req, res) {
     try {
-      const items = await Download.findAll();
+      const userId = req.params.userId;
+
+      const cache = await redis.get(`downloads:${userId}`);
+      if (cache) return res.json(JSON.parse(cache));
+
+      const items = await Download.findAll({
+        where: { userId },
+        order: [["downloadedAt", "DESC"]]
+      });
+
+      await redis.set(`downloads:${userId}`, JSON.stringify(items), "EX", 300);
+
       return res.json(items);
+
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error fetching downloads', error });
+      return res.status(500).json({ message: "Error fetching downloads", error });
     }
   }
-
-  static async findOne(req, res) {
+  static async deletebyUser(req, res) {
     try {
-      const item = await Download.findByPk(req.params.id);
-      if (!item) return res.status(404).json({ message: 'Download not found' });
-      return res.json(item);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error fetching download', error });
-    }
-  }
+      const userId = req.params.userId;
+      const id = req.params.id;
 
-  static async update(req, res) {
-    try {
-      const item = await Download.findByPk(req.params.id);
-      if (!item) return res.status(404).json({ message: 'Download not found' });
-      await item.update(req.body);
-      return res.json(item);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error updating download', error });
-    }
-  }
+      const deleted = await Download.destroy({
+        where: {
+          id,
+          userId
+        }
+      });
 
-  static async delete(req, res) {
-    try {
-      const item = await Download.findByPk(req.params.id);
-      if (!item) return res.status(404).json({ message: 'Download not found' });
-      await item.destroy();
-      return res.json({ message: 'Download deleted' });
+      if (deleted) {
+        await redis.del(`downloads:${userId}`);
+        return res.json({ message: "Download entry deleted" });
+      } else {
+        return res.status(404).json({ message: "Download entry not found" });
+      }
+
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Error deleting download', error });
+      return res.status(500).json({ message: "Error deleting download entry", error });
     }
   }
 }
